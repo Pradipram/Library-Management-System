@@ -5,6 +5,12 @@ using namespace std;
 
 enum userType {NORMAL, ADMIN,OTHER};
 
+string toLowerCase(const string& str) {
+    string lowerStr = str;
+    transform(lowerStr.begin(), lowerStr.end(), lowerStr.begin(), ::tolower);
+    return lowerStr;
+}
+
 class User{
     public:
     string userId;
@@ -44,6 +50,7 @@ class Library{
 };
 
 bool Library::isAlreadyPresent(string userId){
+    userId = toLowerCase(userId);
     return users.find(userId) != users.end();
 }
 
@@ -62,7 +69,7 @@ void Library::loadUsersFromFile(){
     string userId,password;
     while(file>>userId>>password){
         User u(userId,password);
-        users[userId] = u;
+        users[toLowerCase(userId)] = u;
     }
     file.close();
 }
@@ -70,6 +77,7 @@ void Library::loadUsersFromFile(){
 void Library::Register(){
     cout<<"Enter you userId: ";
     string userId;cin>>userId;
+    userId = toLowerCase(userId);
     cout<<"Enter your password: ";
     string password;cin>>password;
     bool isPresent = isAlreadyPresent(userId);
@@ -87,6 +95,7 @@ void Library::Register(){
 void Library::Login(){
     cout<<"Enter you userId: ";
     string userId;cin>>userId;
+    userId = toLowerCase(userId);
     cout<<"Enter your password: ";
     string password;cin>>password;
     bool isPresent = isAlreadyPresent(userId);
